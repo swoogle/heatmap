@@ -4,27 +4,23 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.util.Random;
 import java.util.Vector;
-
-import javax.imageio.ImageIO;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 public class HeatMap {
-	public static final int HEATMAP_IMAGE_WIDTH = 800;
-	public static final int HEATMAP_IMAGE_HEIGHT = 600;
-	public static final int TYPE_COORDINATES_CIRCLE = 0;
-	public static final int TYPE_COORDINATES_ELLPISE = 1;
-	public static final double DEFAULT_CIRCLE_RADIUS = 0.75D;
-	public static final double DEFAULT_ELLIPSE_A_AXIS = 0.8D;
-	public static final double DEFAULT_ELLIPSE_B_AXIS = 0.6D;
+	public static final int TYPE_COORDINATES_RANDOM = 0;
+	public static final int TYPE_COORDINATES_CIRCLE = 1;
+	public static final int TYPE_COORDINATES_ELLPISE = 2;
 
+	private int heatMapImageWidth;
+	private int heatMapImageHeight;
+	private double circleRadius;
+	private double ellipseAAxis;
+	private double ellipseBAxis;
 	private ItemVisualization itemVisualization;
 	private DensityVisualization densityVisualization;
 	private DensityColors densityColors;
@@ -35,7 +31,13 @@ public class HeatMap {
 	private double densityAllItemsMax;
 	private BufferedImage densityImage;
 
-	public HeatMap() {
+	public HeatMap(int heatMapImageWidth, int heatMapImageHeight) {
+		this.heatMapImageWidth = heatMapImageWidth;
+		this.heatMapImageHeight = heatMapImageHeight;
+		this.circleRadius = (double) this.heatMapImageHeight
+				/ (double) this.heatMapImageWidth;
+		this.ellipseAAxis = (double) this.heatMapImageWidth / 1000D;
+		this.ellipseBAxis = (double) this.heatMapImageHeight / 1000D;
 		this.itemVisualization = new ItemVisualization();
 		this.itemVisualization.setItemWeight(0);
 
@@ -45,14 +47,14 @@ public class HeatMap {
 		this.heatmapParameters = new HeatMapParameters();
 	}
 
-	public HeatMapData getHeatMapData(){
+	public HeatMapData getHeatMapData() {
 		return this.heatmapData;
 	}
-	
-	public ItemVisualization getItemVisualization(){
+
+	public ItemVisualization getItemVisualization() {
 		return this.itemVisualization;
 	}
-	
+
 	public void initItemCoordinates() {
 		int nItems = this.heatmapData.getNItems();
 		this.coordinate = new double[2][nItems];
@@ -71,8 +73,8 @@ public class HeatMap {
 
 	public void initMapParameters() {
 		this.heatmapParameters.init(this.getMinCoordinates(),
-				this.getMaxCoordinates(), HeatMap.HEATMAP_IMAGE_WIDTH,
-				HeatMap.HEATMAP_IMAGE_HEIGHT, 0, 0);
+				this.getMaxCoordinates(), this.heatMapImageWidth,
+				this.heatMapImageHeight, 0, 0);
 	}
 
 	private double[] getMaxCoordinates() {
@@ -154,10 +156,22 @@ public class HeatMap {
 	private double[][] calcCoordinates(double x, double y, int number,
 			double radius, double aAxis, double bAxis, int type) {
 		double[][] coordinates = new double[2][number];
-		if (type == TYPE_COORDINATES_CIRCLE) {
+		if (type == TYPE_COORDINATES_RANDOM) {
+			calcRandomCoordinates(x, y, number);
+		} else if (type == TYPE_COORDINATES_CIRCLE) {
 			coordinates = calcCircleCoordinates(x, y, number, radius);
 		} else if (type == TYPE_COORDINATES_ELLPISE) {
 			coordinates = calcEllipseCoordinates(x, y, number, aAxis, bAxis);
+		}
+		return coordinates;
+	}
+
+	private double[][] calcRandomCoordinates(double x, double y, int number) {
+		double[][] coordinates = new double[2][number];
+		Random random = new Random();
+		for (int i = 0; i < number; i++) {
+			coordinates[0][i] = x + random.nextDouble();
+			coordinates[1][i] = y + random.nextDouble();
 		}
 		return coordinates;
 	}
@@ -170,8 +184,6 @@ public class HeatMap {
 					* Math.cos((double) i / number * 2 * Math.PI);
 			coordinates[1][i] = y + radius
 					* Math.sin((double) i / number * 2 * Math.PI);
-			// System.out.println("x=" + coordinates[0][i] + ",y="
-			// + coordinates[1][i]);
 		}
 		return coordinates;
 	}
@@ -184,8 +196,6 @@ public class HeatMap {
 					* Math.cos((double) i / number * 2 * Math.PI);
 			coordinates[1][i] = y + bAxis
 					* Math.sin((double) i / number * 2 * Math.PI);
-			// System.out.println("x=" + coordinates[0][i] + ",y="
-			// + coordinates[1][i]);
 		}
 		return coordinates;
 	}
@@ -316,8 +326,8 @@ public class HeatMap {
 		int height = this.heatmapParameters
 				.logicalUnitsToPixels(this.heatmapParameters.getYMax()
 						- this.heatmapParameters.getYMin());
-		BufferedImage mapImage = new BufferedImage(HEATMAP_IMAGE_WIDTH,
-				HEATMAP_IMAGE_HEIGHT, 1);
+		BufferedImage mapImage = new BufferedImage(this.heatMapImageWidth,
+				this.heatMapImageHeight, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2Image = (Graphics2D) mapImage.getGraphics();
 		g2Image.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
 				RenderingHints.VALUE_INTERPOLATION_BILINEAR);
@@ -349,51 +359,58 @@ public class HeatMap {
 			String centerKeywords = mkeyObj.getString("keywords");
 			double centerWeight = mkeyObj.getDoubleValue("frequency");
 			JSONArray centerArray = mkeyObj.getJSONArray("cont");
-			int id = 1;
+			int id = 0;
 
-			Item center = new Item(Integer.toString(id), centerKeywords, 0, 0,
-					centerWeight);
-			items.add(center);
-			int number = centerArray.size();
-			double radius = DEFAULT_CIRCLE_RADIUS;
-			double aAxis = DEFAULT_ELLIPSE_A_AXIS;
-			double bAxis = DEFAULT_ELLIPSE_B_AXIS;
+			// Item center = new Item(Integer.toString(id), centerKeywords, 0,
+			// 0,
+			// centerWeight);
+			// items.add(center);
+			if (centerArray != null && centerArray.size() > 0) {
+				int number = centerArray.size();
+				double[][] firstLayerCoordinates = calcCoordinates(0, 0,
+						number, this.circleRadius, this.ellipseAAxis,
+						this.ellipseBAxis, TYPE_COORDINATES_ELLPISE);
 
-			double[][] firstLayerCoordinates = calcCoordinates(0, 0, number,
-					radius, aAxis, bAxis, TYPE_COORDINATES_ELLPISE);
-
-			for (int i = 0; i < number; i++) {
-				JSONObject firstLayerObj = (JSONObject) centerArray.get(i);
-				String firstLayerKeywords = firstLayerObj.getString("keywords");
-				double firstLayerWeight = firstLayerObj
-						.getDoubleValue("frequency");
-
-				Item firstLayerItem = new Item(Integer.toString(id++),
-						firstLayerKeywords, firstLayerCoordinates[0][i],
-						firstLayerCoordinates[1][i], firstLayerWeight);
-				items.add(firstLayerItem);
-
-				JSONArray firstLayerArray = firstLayerObj.getJSONArray("cont");
-				int firstLayerNumber = firstLayerArray.size();
-
-				double[][] secondLayerCoordinates = calcCoordinates(
-						firstLayerCoordinates[0][i],
-						firstLayerCoordinates[1][i], firstLayerNumber,
-						radius / 4, aAxis / 4, bAxis / 4,
-						TYPE_COORDINATES_ELLPISE);
-
-				for (int j = 0; j < firstLayerNumber; j++) {
-					JSONObject sencondLayerObj = (JSONObject) firstLayerArray
-							.get(j);
-					String sencondLayerKeywords = sencondLayerObj
+				for (int i = 0; i < number; i++) {
+					JSONObject firstLayerObj = (JSONObject) centerArray.get(i);
+					String firstLayerKeywords = firstLayerObj
 							.getString("keywords");
-					double sencondLayerWeight = sencondLayerObj
+					double firstLayerWeight = firstLayerObj
 							.getDoubleValue("frequency");
 
-					Item sencondLayerItem = new Item(Integer.toString(id++),
-							sencondLayerKeywords, secondLayerCoordinates[0][j],
-							secondLayerCoordinates[1][j], sencondLayerWeight);
-					items.add(sencondLayerItem);
+					Item firstLayerItem = new Item(Integer.toString(id++),
+							firstLayerKeywords, firstLayerCoordinates[0][i],
+							firstLayerCoordinates[1][i], firstLayerWeight);
+					items.add(firstLayerItem);
+
+					JSONArray firstLayerArray = firstLayerObj
+							.getJSONArray("cont");
+					if (firstLayerArray != null && firstLayerArray.size() > 0) {
+						int firstLayerNumber = firstLayerArray.size();
+
+						double[][] secondLayerCoordinates = calcCoordinates(
+								firstLayerCoordinates[0][i],
+								firstLayerCoordinates[1][i], firstLayerNumber,
+								this.circleRadius / 4, this.ellipseAAxis / 4,
+								this.ellipseBAxis / 4, TYPE_COORDINATES_ELLPISE);
+
+						for (int j = 0; j < firstLayerNumber; j++) {
+							JSONObject sencondLayerObj = (JSONObject) firstLayerArray
+									.get(j);
+							String sencondLayerKeywords = sencondLayerObj
+									.getString("keywords");
+							double sencondLayerWeight = sencondLayerObj
+									.getDoubleValue("frequency");
+
+							Item sencondLayerItem = new Item(
+									Integer.toString(id++),
+									sencondLayerKeywords,
+									secondLayerCoordinates[0][j],
+									secondLayerCoordinates[1][j],
+									sencondLayerWeight);
+							items.add(sencondLayerItem);
+						}
+					}
 				}
 			}
 		}

@@ -1,304 +1,62 @@
 {
     "msg": "true", 
-    "mkey": {
-        "keywords": "新能源汽车",
-		"confidence_level": "", 
-        "related_number": 0, 
-        "degree_support": 3.07e-7, 
-        "frequency": 2095764,		
-        "cont": [
-            {
-                "keywords": "税务机关", 
-                "confidence_level": "", 
-                "related_number": 0,
-				"degree_support": 3.07e-7, 
-                "frequency": 2270465,				
-                "cont": [
-                    {
-                        "keywords": "非机动船", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 2095764
-                    }, 
-                    {
-                        "keywords": "电动自行车", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 6.14e-7, 
-                        "frequency": 2087687
-                    }, 
-                    {
-                        "keywords": "纳税人", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 9.21e-7, 
-                        "frequency": 1980802
-                    }, 
-                    {
-                        "keywords": "扣缴义务人", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 1963968
-                    }, 
-                    {
-                        "keywords": "节约能源", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 1294648
-                    }, 
-                    {
-                        "keywords": "国务院办公厅", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 1123393
-                    }
-                ]
-            }, 
-            {
-                "keywords": "税收优惠", 
-                "confidence_level": "", 
-                "related_number": 0, 
-                "degree_support": 0.000001535, 
-                "frequency": 2270460,
-                "cont": [
-                    {
-                        "keywords": "上市公司", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 6.14e-7, 
-                        "frequency": 2221053
-                    }, 
-                    {
-                        "keywords": "汽车产业", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 0.000001843, 
-                        "frequency": 2198978
-                    }, 
-                    {
-                        "keywords": "汽车", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 2192405
-                    }, 
-                    {
-                        "keywords": "燃油", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 2183873
-                    }, 
-                    {
-                        "keywords": "监管机制", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 2140827
-                    }, 
-                    {
-                        "keywords": "混合动力车辆", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 2127891
-                    }
-                ] 
-            }, 
-            {
-                "keywords": "水桶", 
-                "confidence_level": "", 
-                "related_number": 0, 
-                "degree_support": 3.07e-7, 
-                "frequency": 2270353,
-                "cont": [
-                    {
-                        "keywords": "木板", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 1572364
-                    }, 
-                    {
-                        "keywords": "电动汽车", 
-                        "confidence_level": 0.2, 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 620650
-                    }, 
-                    {
-                        "keywords": "电池管理系统", 
-                        "confidence_level": 0.2, 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 548662
-                    }, 
-                    {
-                        "keywords": "电池组", 
-                        "confidence_level": 0.2, 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 484924
-                    }, 
-                    {
-                        "keywords": "车辆", 
-                        "confidence_level": 0.2, 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 340844
-                    }
-                ]
-            }, 
-            {
-                "keywords": "双电层电容器", 
-                "confidence_level": "", 
-                "related_number": 0, 
-                "degree_support": 3.07e-7, 
-                "frequency": 2269798,
-                "cont": [
-                    {
-                        "keywords": "铅酸蓄电池", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 6.14e-7, 
-                        "frequency": 2244168
-                    }, 
-                    {
-                        "keywords": "锂离子电池", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 6.14e-7, 
-                        "frequency": 2232731
-                    }, 
-                    {
-                        "keywords": "环境污染", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 2205823
-                    }, 
-                    {
-                        "keywords": "化学反应", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 2194093
-                    }, 
-                    {
-                        "keywords": "起步", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 2182073
-                    }, 
-                    {
-                        "keywords": "毛竹", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 2181392
-                    }
-                ]
-            }, 
-            {
-                "keywords": "双层客车", 
-                "confidence_level": "", 
-                "related_number": 0, 
-                "degree_support": 9.21e-7, 
-                "frequency": 2269781,
-                "cont": [
-                    {
-                        "keywords": "盘式制动器", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 2256703
-                    }, 
-                    {
-                        "keywords": "流线性", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 2253376
-                    }, 
-                    {
-                        "keywords": "列车分离", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 2246177
-                    }, 
-                    {
-                        "keywords": "联合设计", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 2242515
-                    }, 
-                    {
-                        "keywords": "客运企业", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 2189389
-                    }, 
-                    {
-                        "keywords": "伦敦", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 6.14e-7, 
-                        "frequency": 2171218
-                    }
-                ]
-            }, 
-            {
-                "keywords": "受热", 
-                "confidence_level": "", 
-                "related_number": 0, 
-                "degree_support": 3.07e-7, 
-                "frequency": 2268650,
-                "cont": [
-                    {
-                        "keywords": "上海", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 1783214
-                    }, 
-                    {
-                        "keywords": "汽车市场", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 1532964
-                    }, 
-                    {
-                        "keywords": "科技发展规划", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 1389891
-                    }, 
-                    {
-                        "keywords": "动力电池", 
-                        "confidence_level": "", 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 704799
-                    }, 
-                    {
-                        "keywords": "电池产业", 
-                        "confidence_level": 0.2, 
-                        "related_number": 0, 
-                        "degree_support": 3.07e-7, 
-                        "frequency": 534285
-                    }
-                ]
-            }
-        ]
-    }
+	"keywords": "永磁同步电机"	
+	"cont": [
+		{
+			"keywords": "SYNCHRONOUS MOTOR", 
+			"frequency": 82
+		}, 
+		{
+			"keywords": "PMSM", 
+			"frequency": 80
+		}, 
+		{
+			"keywords": "矢量控制", 
+			"frequency": 71,
+			"cont": [
+				{
+					"keywords": "感应电机", 
+					"frequency": 35
+				}, 
+				{
+					"keywords": "控制方法", 
+					"frequency": 30
+				}
+			]
+		}, 
+		{
+			"keywords": "仿真结果", 
+			"frequency": 68,
+			"cont": [
+				{
+					"keywords": "数学模型", 
+					"frequency": 56
+				}, 
+				{
+					"keywords": "矢量控制", 
+					"frequency": 53
+				}, 
+				{
+					"keywords": "仿真模型", 
+					"frequency": 47
+				}, 
+				{
+					"keywords": "鲁棒性", 
+					"frequency": 40
+				}, 
+				{
+					"keywords": "仿真研究", 
+					"frequency": 38
+				}, 
+				{
+					"keywords": "控制策略", 
+					"frequency": 38
+				}
+			]
+		}, 
+		{
+			"keywords": "PERMANENT MAGNET", 
+			"frequency": 59
+		}
+	]
 }
