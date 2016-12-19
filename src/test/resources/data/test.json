@@ -1,62 +1,81 @@
 {
-    "msg": "true", 
-	"keywords": "永磁同步电机"	
-	"cont": [
-		{
-			"keywords": "SYNCHRONOUS MOTOR", 
-			"frequency": 82
-		}, 
-		{
-			"keywords": "PMSM", 
-			"frequency": 80
-		}, 
-		{
-			"keywords": "矢量控制", 
-			"frequency": 71,
-			"cont": [
-				{
-					"keywords": "感应电机", 
-					"frequency": 35
-				}, 
-				{
-					"keywords": "控制方法", 
-					"frequency": 30
-				}
-			]
-		}, 
-		{
-			"keywords": "仿真结果", 
-			"frequency": 68,
-			"cont": [
-				{
-					"keywords": "数学模型", 
-					"frequency": 56
-				}, 
-				{
-					"keywords": "矢量控制", 
-					"frequency": 53
-				}, 
-				{
-					"keywords": "仿真模型", 
-					"frequency": 47
-				}, 
-				{
-					"keywords": "鲁棒性", 
-					"frequency": 40
-				}, 
-				{
-					"keywords": "仿真研究", 
-					"frequency": 38
-				}, 
-				{
-					"keywords": "控制策略", 
-					"frequency": 38
-				}
-			]
-		}, 
-		{
-			"keywords": "PERMANENT MAGNET", 
-			"frequency": 59
-		}
-	]
+    "msg": "true",
+	"mkey": {
+		"keywords": "永磁同步电机",
+		"keywords_number": 397,
+		"total_frequency": 360,
+		"cont": [
+			{
+				"keywords": "SYNCHRONOUS MOTOR", 
+				"keywords_number": 127,
+				"frequency": 82
+			}, 
+			{
+				"keywords": "PMSM", 
+				"keywords_number": 88,
+				"frequency": 80
+			}, 
+			{
+				"keywords": "矢量控制", 
+				"keywords_number": 250,
+				"frequency": 71,
+				"total_frequency": 65,
+				"cont": [
+					{
+						"keywords": "感应电机", 
+						"keywords_number": 214,
+						"frequency": 35
+					}, 
+					{
+						"keywords": "控制方法", 
+						"keywords_number": 239,
+						"frequency": 30
+					}
+				]
+			}, 
+			{
+				"keywords": "仿真结果", 
+				"keywords_number": 352,
+				"frequency": 68,
+				"total_frequency": 272,
+				"cont": [
+					{
+						"keywords": "数学模型",
+						"keywords_number": 281,					
+						"frequency": 56
+					}, 
+					{
+						"keywords": "矢量控制", 
+						"keywords_number": 250,
+						"frequency": 53
+					}, 
+					{
+						"keywords": "仿真模型", 
+						"keywords_number": 106,
+						"frequency": 47
+					}, 
+					{
+						"keywords": "鲁棒性", 
+						"keywords_number": 124,
+						"frequency": 40
+					}, 
+					{
+						"keywords": "仿真研究", 
+						"keywords_number": 95,
+						"frequency": 38
+					}, 
+					{
+						"keywords": "控制策略", 
+						"keywords_number": 189,
+						"frequency": 38
+					}
+				]
+			}, 
+			{
+				"keywords": "PERMANENT MAGNET", 
+				"keywords_number": 128,
+				"frequency": 59
+			}
+		]
+	}
 }

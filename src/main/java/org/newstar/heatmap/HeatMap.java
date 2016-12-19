@@ -200,6 +200,52 @@ public class HeatMap {
 		return coordinates;
 	}
 
+	private double[][] calcCoordinates(int number, double radius, double aAxis,
+			double bAxis, int type) {
+		double[][] coordinates = new double[2][number];
+		if (type == TYPE_COORDINATES_RANDOM) {
+			coordinates = calcRandomCoordinates(number);
+		} else if (type == TYPE_COORDINATES_CIRCLE) {
+			coordinates = calcCircleCoordinates(number, radius);
+		} else if (type == TYPE_COORDINATES_ELLPISE) {
+			coordinates = calcEllipseCoordinates(number, aAxis, bAxis);
+		}
+		return coordinates;
+	}
+
+	private double[][] calcRandomCoordinates(int number) {
+		double[][] coordinates = new double[2][number];
+		Random random = new Random();
+		for (int i = 0; i < number; i++) {
+			coordinates[0][i] = random.nextDouble();
+			coordinates[1][i] = random.nextDouble();
+		}
+		return coordinates;
+	}
+
+	private double[][] calcCircleCoordinates(int number, double radius) {
+		double[][] coordinates = new double[2][number];
+		for (int i = 0; i < number; i++) {
+			coordinates[0][i] = radius
+					* Math.cos((double) i / number * 2 * Math.PI);
+			coordinates[1][i] = radius
+					* Math.sin((double) i / number * 2 * Math.PI);
+		}
+		return coordinates;
+	}
+
+	private double[][] calcEllipseCoordinates(int number, double aAxis,
+			double bAxis) {
+		double[][] coordinates = new double[2][number];
+		for (int i = 0; i < number; i++) {
+			coordinates[0][i] = aAxis
+					* Math.cos((double) i / number * 2 * Math.PI);
+			coordinates[1][i] = bAxis
+					* Math.sin((double) i / number * 2 * Math.PI);
+		}
+		return coordinates;
+	}
+
 	private double getAverageDistance() {
 		double averageDistance = 0.0D;
 		int nItems = this.heatmapData.getNItems();
@@ -355,62 +401,100 @@ public class HeatMap {
 		boolean ok = retObj.getBoolean("msg");
 		if (ok) {
 			String mkey = retObj.getString("mkey");
-			JSONObject mkeyObj = JSON.parseObject(mkey);
-			String centerKeywords = mkeyObj.getString("keywords");
-			double centerWeight = mkeyObj.getDoubleValue("frequency");
-			JSONArray centerArray = mkeyObj.getJSONArray("cont");
+			JSONObject firstLayerObj = JSON.parseObject(mkey);
+			String firstLayerKeywords = firstLayerObj.getString("keywords");
+			double firstLayerWeight = firstLayerObj
+					.getDoubleValue("keywords_number");
+			JSONArray secondLayerArray = firstLayerObj.getJSONArray("cont");
 			int id = 0;
 
-			// Item center = new Item(Integer.toString(id), centerKeywords, 0,
-			// 0,
-			// centerWeight);
-			// items.add(center);
-			if (centerArray != null && centerArray.size() > 0) {
-				int number = centerArray.size();
-				double[][] firstLayerCoordinates = calcCoordinates(0, 0,
-						number, this.circleRadius, this.ellipseAAxis,
-						this.ellipseBAxis, TYPE_COORDINATES_ELLPISE);
+			if (secondLayerArray != null && secondLayerArray.size() > 0) {
+				Item firstLayerItem = new Item(Integer.toString(id++),
+						firstLayerKeywords, 0, 0, firstLayerWeight);
+				items.add(firstLayerItem);
 
-				for (int i = 0; i < number; i++) {
-					JSONObject firstLayerObj = (JSONObject) centerArray.get(i);
-					String firstLayerKeywords = firstLayerObj
+				double firstLayerTotalFrequency = firstLayerObj
+						.getDoubleValue("total_frequency");
+
+				int secondLayerNumber = secondLayerArray.size();
+				double[][] secondLayerCoordinates = calcCoordinates(
+						secondLayerNumber, this.circleRadius,
+						this.ellipseAAxis, this.ellipseBAxis,
+						TYPE_COORDINATES_ELLPISE);
+
+				for (int i = 0; i < secondLayerNumber; i++) {
+					JSONObject secondLayerObj = (JSONObject) secondLayerArray
+							.get(i);
+					String secondLayerKeywords = secondLayerObj
 							.getString("keywords");
-					double firstLayerWeight = firstLayerObj
+					double secondLayerWeight = secondLayerObj
+							.getDoubleValue("keywords_number");
+					double secondLayerFrequency = secondLayerObj
 							.getDoubleValue("frequency");
 
-					Item firstLayerItem = new Item(Integer.toString(id++),
-							firstLayerKeywords, firstLayerCoordinates[0][i],
-							firstLayerCoordinates[1][i], firstLayerWeight);
-					items.add(firstLayerItem);
+					double secondLayerX = secondLayerCoordinates[0][i]
+							* (1.0D - secondLayerFrequency
+									/ firstLayerTotalFrequency);
+					double secondLayerY = secondLayerCoordinates[1][i]
+							* (1.0D - secondLayerFrequency
+									/ firstLayerTotalFrequency);
 
-					JSONArray firstLayerArray = firstLayerObj
+					Item secondLayerItem = new Item(Integer.toString(id++),
+							secondLayerKeywords, secondLayerX, secondLayerY,
+							secondLayerWeight);
+					items.add(secondLayerItem);
+
+					JSONArray thirdLayerArray = secondLayerObj
 							.getJSONArray("cont");
-					if (firstLayerArray != null && firstLayerArray.size() > 0) {
-						int firstLayerNumber = firstLayerArray.size();
+					if (thirdLayerArray != null && thirdLayerArray.size() > 0) {
+						int thirdLayerNumber = thirdLayerArray.size();
+						double secondLayerTotalFrequency = secondLayerObj
+								.getDoubleValue("total_frequency");
 
-						double[][] secondLayerCoordinates = calcCoordinates(
-								firstLayerCoordinates[0][i],
-								firstLayerCoordinates[1][i], firstLayerNumber,
-								this.circleRadius / 4, this.ellipseAAxis / 4,
-								this.ellipseBAxis / 4, TYPE_COORDINATES_ELLPISE);
+						double[][] thirdLayerCoordinates = calcCoordinates(
+								thirdLayerNumber, this.circleRadius / 4,
+								this.ellipseAAxis / 4, this.ellipseBAxis / 4,
+								TYPE_COORDINATES_ELLPISE);
 
-						for (int j = 0; j < firstLayerNumber; j++) {
-							JSONObject sencondLayerObj = (JSONObject) firstLayerArray
+						for (int j = 0; j < thirdLayerNumber; j++) {
+							JSONObject thirdLayerObj = (JSONObject) thirdLayerArray
 									.get(j);
-							String sencondLayerKeywords = sencondLayerObj
+							String thirdLayerKeywords = thirdLayerObj
 									.getString("keywords");
-							double sencondLayerWeight = sencondLayerObj
+							double thirdLayerWeight = thirdLayerObj
+									.getDoubleValue("keywords_number");
+							double thirdLayerFrequency = thirdLayerObj
 									.getDoubleValue("frequency");
 
-							Item sencondLayerItem = new Item(
-									Integer.toString(id++),
-									sencondLayerKeywords,
-									secondLayerCoordinates[0][j],
-									secondLayerCoordinates[1][j],
-									sencondLayerWeight);
-							items.add(sencondLayerItem);
+							double thirdLayerX = secondLayerX
+									+ thirdLayerCoordinates[0][j]
+									* (1.0D - thirdLayerFrequency
+											/ secondLayerTotalFrequency);
+							double thirdLayerY = secondLayerY
+									+ thirdLayerCoordinates[1][j]
+									* (1.0D - thirdLayerFrequency
+											/ secondLayerTotalFrequency);
+
+							Item thirdLayerItem = new Item(
+									Integer.toString(id++), thirdLayerKeywords,
+									thirdLayerX, thirdLayerY, thirdLayerWeight);
+							items.add(thirdLayerItem);
 						}
 					}
+				}
+			} else {
+				int number = 2;
+				double[][] firstLayerCoordinates = calcCoordinates(number,
+						this.circleRadius, this.ellipseAAxis,
+						this.ellipseBAxis, TYPE_COORDINATES_ELLPISE);
+				Item firstLayerItem = new Item(Integer.toString(id++),
+						firstLayerKeywords, 0, 0, firstLayerWeight);
+				items.add(firstLayerItem);
+				for (int i = 0; i < number; i++) {
+					Item tempItem = new Item(Integer.toString(id++), "",
+							firstLayerCoordinates[0][i],
+							firstLayerCoordinates[1][i], 0);
+					items.add(tempItem);
 				}
 			}
 		}
